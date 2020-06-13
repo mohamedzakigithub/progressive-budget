@@ -12,7 +12,6 @@ router.post("/api/transaction", ({ body }, res) => {
 });
 
 router.post("/api/transaction/bulk", ({ body }, res) => {
-  console.log(body);
   Transaction.create(body)
     .then((dbTransaction) => {
       res.json(dbTransaction);
