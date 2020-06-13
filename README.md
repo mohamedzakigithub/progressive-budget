@@ -24,7 +24,7 @@ https://pwa-budget-project.herokuapp.com/
 
   - The app can be used in offline mode as it uses indexedDB to keep a copy of the online database.
 
-  - The app checks for online / offline status every second and syncs the offline database with the online database.
+  - The app checks for online / offline status every second and syncs offline database and online databases.
 
 ## Dependencies
 
