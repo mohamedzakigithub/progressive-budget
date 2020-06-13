@@ -2,14 +2,9 @@
 
 A progressive web app for tracking expenses. The app uses Express web server and mongodb for data persistence and Mongoose ORM. The app is a progressive web app that can be installed and works offline with full functionality.
 
-- [Demo](#Demo)
 - [Deployed app URL](#Deployed-app-URL)
 - [Usage](#Usage)
 - [Dependencies](#Dependencies)
-
-## Demo
-
-![](/demo.gif)
 
 ## Deployed app URL
 
