@@ -1,6 +1,11 @@
 let db;
 const request = indexedDB.open("budget", 1);
 
+const FILES_TO_CACHE = ["/", "/index.html", "index.js", "styles.css"];
+
+const CACHE_NAME = "static-cache-v2";
+const DATA_CACHE_NAME = "data-cache-v1";
+
 request.onupgradeneeded = function (event) {
   const db = event.target.result;
   db.createObjectStore("offlineDB", { autoIncrement: true });
@@ -14,10 +19,6 @@ request.onsuccess = function (event) {
 request.onerror = function (event) {
   console.log("Woops! " + event.target.errorCode);
 };
-const FILES_TO_CACHE = ["/", "/index.html", "index.js", "styles.css"];
-
-const CACHE_NAME = "static-cache-v2";
-const DATA_CACHE_NAME = "data-cache-v1";
 
 // install
 self.addEventListener("install", function (evt) {
@@ -50,11 +51,11 @@ self.addEventListener("activate", function (evt) {
 });
 
 // fetch
-self.addEventListener("fetch", async function (evt) {
+self.addEventListener("fetch", function (evt) {
   evt.respondWith(
     caches
       .open(DATA_CACHE_NAME)
-      .then(async (cache) => {
+      .then((cache) => {
         return fetch(evt.request.clone())
           .then(async (response) => {
             if (
@@ -71,8 +72,8 @@ self.addEventListener("fetch", async function (evt) {
               const transaction = db.transaction(["offlineDB"], "readwrite");
               const store = transaction.objectStore("offlineDB");
               store.clear();
-              data.forEach(async (element) => {
-                await store.add(element);
+              data.forEach((element) => {
+                store.add(element);
               });
             }
             return response;
@@ -93,8 +94,8 @@ self.addEventListener("fetch", async function (evt) {
                 "readwrite"
               );
               const storeOffline = transactionOffline.objectStore("offlineDB");
-              await storePending.add(amount);
-              await storeOffline.add(amount);
+              storePending.add(amount);
+              storeOffline.add(amount);
               return amount;
             }
             if (
@@ -144,10 +145,10 @@ function syncDatabase() {
         },
       })
         .then((response) => response.json())
-        .then(async () => {
+        .then(() => {
           const transaction = db.transaction(["pending"], "readwrite");
           const store = transaction.objectStore("pending");
-          await store.clear();
+          store.clear();
         })
         .catch((err) => {
           console.log(err);
