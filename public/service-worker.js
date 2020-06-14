@@ -51,7 +51,6 @@ self.addEventListener("activate", function (evt) {
 
 // fetch
 self.addEventListener("fetch", async function (evt) {
-  syncDatabase();
   evt.respondWith(
     caches
       .open(DATA_CACHE_NAME)
