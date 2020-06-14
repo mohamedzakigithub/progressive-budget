@@ -160,4 +160,4 @@ function syncDatabase() {
 setInterval(function () {
   console.log("checking online status");
   syncDatabase();
-}, 1000);
+}, 5000);
